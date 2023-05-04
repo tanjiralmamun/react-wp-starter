@@ -1,0 +1,19 @@
+{
+    "name": "tanjiralmamun/react-wp-starter",
+    "description": "A WordPress React.js Starter plugin",
+    "type": "wordpress-plugin",
+    "license": "GPLv2",
+    "authors": [
+        {
+            "name": "Tanjir Al Mamun",
+            "email": "tanjir.almamun@outlook.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "React_WP_Starter\\": "includes/"
+        }
+    }
+}
