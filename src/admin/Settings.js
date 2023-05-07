@@ -1,23 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import apiFetch from '@wordpress/api-fetch';
 
 import Menu from "./components/Menu";
 import Fields from "./pages/Fields";
 import Appearance from "./pages/Appearance";
 
 const Settings = () => {
-    const [ settings, setSettings ] = useState('');
-
-    useEffect( () => {
-        apiFetch( {
-            path: '/react-wp-starter/v1/settings'
-        } )
-        .then( resp => {
-            setSettings( resp );
-        } )
-    }, [] )
-
     return ( 
         <div className="react-app-settings">
             <h1>Settings</h1>
@@ -28,7 +16,7 @@ const Settings = () => {
                     
                     <div className="react-menu-content">
                         <Routes>
-                            <Route path="/" element={ <Fields settings={ settings } /> }/>
+                            <Route path="/" element={ <Fields /> }/>
                             <Route path="/appearance" element={ <Appearance /> }/>
                         </Routes>
                     </div>
