@@ -51,11 +51,10 @@ class Settings extends Base {
      * @return WP_Rest_Response|WP_Error
      */
     public function get_items( $request ) {
-        $country = get_option( 'react_wp_country' );
+        $get_rws_inputs = get_option( 'rws_settings' );
         
-        $response = [ 
-            'country' => $country 
-        ];
+        // unserialized pulled value
+        $response = unserialize( $get_rws_inputs );
 
         return rest_ensure_response( $response );
     }
@@ -68,12 +67,16 @@ class Settings extends Base {
      * @return WP_Error|WP_Rest_Response
      */
     public function update_items( $request ) {
-        $country = $request->get_param( 'country' );
+        $rws_inputs = $request->get_param( 'inputs' );
+
+        //sanitize input data
+        $sanitized = wp_kses_post_deep( $rws_inputs );
+
+        // serialized input values
+        $serialized = serialize( $sanitized );
 
         //save the value
-        update_option( 'react_wp_country', $country, false );
-
-        $request->set_param( 'context', 'edit' );
+        update_option( 'rws_settings', $serialized );
 
         return $this->get_items( $request );
     }

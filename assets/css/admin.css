@@ -31,3 +31,17 @@
   align-items: center;
   justify-content: space-between;
 }
+.react-app-settings-wrap .react-menu-content .react-wp-fields fieldset textarea {
+  margin: 10px 0;
+}
+.react-app-settings-wrap .react-menu-content .react-wp-fields .rws_campus_single {
+  margin: 10px 0;
+}
+.react-app-settings-wrap .react-menu-content .react-wp-fields .rws_campus_single .field {
+  width: 27em;
+}
+.react-app-settings-wrap .react-menu-content .react-wp-fields .rws_campus_single .field label {
+  display: flex;
+  align-items: end;
+  padding: 5px 0;
+}

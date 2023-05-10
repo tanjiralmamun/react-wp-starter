@@ -21,17 +21,17 @@ const Fields = () => {
             path: '/react-wp-starter/v1/settings'
         } )
         .then( resp => {
-            console.log( 'GET Response: ' + resp )
-            // setCountry( resp.country )
+            setInputs( resp )
+        } )
+        .catch( err => {
+            console.log( err );
         } )
     }, [] )
 
     const handleSubmit = e => {
         e.preventDefault();
-        console.log(inputs)
-        let data = { 
-            inputs: inputs 
-        }
+        
+        let data = { inputs };
 
         apiFetch( {
             path: '/react-wp-starter/v1/settings',
@@ -39,8 +39,7 @@ const Fields = () => {
             data: data
         } )
         .then( resp => {
-            console.log( 'POST Response: ' + resp )
-            // setCountry( resp.country )
+            setInputs( resp )
         } )
         .catch( err => {
             console.log( err );
@@ -59,10 +58,10 @@ const Fields = () => {
                         <div className="field">
                             <input 
                                 type="text" 
-                                id="street"
+                                id="rws_street"
                                 className="regular-text"
-                                value={ inputs.street || "" }
-                                name="street"
+                                value={ inputs.rws_street || "" }
+                                name="rws_street"
                                 onChange={ handleChange }
                             />
                         </div>
@@ -78,10 +77,10 @@ const Fields = () => {
                         <div className="field">
                             <input 
                                 type="text" 
-                                id="state"
+                                id="rws_state"
                                 className="regular-text"
-                                value={ inputs.state || "" }
-                                name="state"
+                                value={ inputs.rws_state || "" }
+                                name="rws_state"
                                 onChange={ handleChange }
                             />
                         </div>
@@ -97,12 +96,98 @@ const Fields = () => {
                         <div className="field">
                             <input 
                                 type="text" 
-                                id="country"
+                                id="rws_country"
                                 className="regular-text"
-                                value={ inputs.country || ""  }
-                                name="country"
+                                value={ inputs.rws_country || ""  }
+                                name="rws_country"
                                 onChange={ handleChange }
                             />
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div className="field-content">
+                    <fieldset>
+                        <div className="field-data">
+                            <h3 className="field-heading">About</h3>
+                        </div>
+
+                        <div className="field">
+                            <textarea
+                                id="rws_about"
+                                className="regular-text"
+                                rows="3"
+                                value={ inputs.rws_about || "" }
+                                name="rws_about"
+                                onChange={ handleChange }
+                            />
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div className="field-content">
+                    <fieldset>
+                        <div className="field-data">
+                            <h3 className="field-heading">Designation</h3>
+                        </div>
+
+                        <div className="field">
+                            <select 
+                                name="rws_designation" 
+                                id="rws_designation"
+                                className="regular-text"
+                                value={ inputs.rws_designation || "" }
+                                onChange={ handleChange }
+                            >
+                                <option value=""> -- Select a role -- </option>
+                                <option value="admin">Administrator</option>
+                                <option value="developer">Developer</option>
+                                <option value="analyst">Analyst</option>
+                                <option value="support">Support</option>
+                            </select>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div className="field-content rws_campus_single">
+                    <fieldset>
+                        <div className="field-data">
+                            <h3 className="field-heading">Campus</h3>
+                        </div>
+
+                        <div className="field">
+                            <label>
+                                <input 
+                                    type="radio" 
+                                    name="rws_campus"
+                                    value="none"
+                                    checked={ inputs.rws_campus === "none" }
+                                    onChange={ handleChange }
+                                />
+                                None
+                            </label>
+                            
+                            <label>
+                                <input 
+                                    type="radio" 
+                                    name="rws_campus"
+                                    value="hq"
+                                    checked={ inputs.rws_campus === "hq" }
+                                    onChange={ handleChange }
+                                />
+                                Head Quarter
+                            </label>
+
+                            <label>
+                                <input 
+                                    type="radio" 
+                                    name="rws_campus"
+                                    value="swizz hall"
+                                    checked={ inputs.rws_campus === "swizz hall" }
+                                    onChange={ handleChange }
+                                />
+                                Switzerland Hall
+                            </label>
                         </div>
                     </fieldset>
                 </div>
