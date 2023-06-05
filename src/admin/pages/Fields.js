@@ -1,50 +1,46 @@
 import React, { useEffect, useState } from "react";
 import apiFetch from '@wordpress/api-fetch';
 
-const Fields = () => {
+const Fields = ({ fieldsData }) => {
     const [ inputs, setInputs ] = useState({});
 
+    useEffect( () => {
+        setInputs( fieldsData );
+    }, [ fieldsData ] );
+
     const handleChange = event => {
-        const name  = event.target.name;
-        const value = event.target.value;
+        const { name, value, type, checked }  = event.target;
 
         setInputs( values => ( {
                     ...values, 
-                    [name]: value
+                    [name]: type === 'checkbox' ? checked : value
                 } 
             ) 
         );
-    }
-
-    useEffect( () => {
-        apiFetch( {
-            path: '/react-wp-starter/v1/settings'
-        } )
-        .then( resp => {
-            setInputs( resp )
-        } )
-        .catch( err => {
-            console.log( err );
-        } )
-    }, [] )
+    };
 
     const handleSubmit = e => {
         e.preventDefault();
-        
-        let data = { inputs };
 
         apiFetch( {
             path: '/react-wp-starter/v1/settings',
             method: 'POST',
-            data: data
+            data: { inputs }
         } )
         .then( resp => {
             setInputs( resp )
+            console.log( resp )
         } )
         .catch( err => {
             console.log( err );
         } )
-    }
+    };
+
+    const radioOptions = [
+        { value: 'none', label: "None" },
+        { value: 'hq', label: "Head Quarter" },
+        { value: 'swizz hall', label: "Switzerland Hall" },
+    ];
 
     return ( 
         <div className="react-wp-fields">
@@ -60,7 +56,7 @@ const Fields = () => {
                                 type="text" 
                                 id="rws_street"
                                 className="regular-text"
-                                value={ inputs.rws_street || "" }
+                                value={ inputs.rws_street || '' }
                                 name="rws_street"
                                 onChange={ handleChange }
                             />
@@ -79,7 +75,7 @@ const Fields = () => {
                                 type="text" 
                                 id="rws_state"
                                 className="regular-text"
-                                value={ inputs.rws_state || "" }
+                                value={ inputs.rws_state || '' }
                                 name="rws_state"
                                 onChange={ handleChange }
                             />
@@ -98,7 +94,7 @@ const Fields = () => {
                                 type="text" 
                                 id="rws_country"
                                 className="regular-text"
-                                value={ inputs.rws_country || ""  }
+                                value={ inputs.rws_country || '' }
                                 name="rws_country"
                                 onChange={ handleChange }
                             />
@@ -117,7 +113,7 @@ const Fields = () => {
                                 id="rws_about"
                                 className="regular-text"
                                 rows="3"
-                                value={ inputs.rws_about || "" }
+                                value={ inputs.rws_about || '' }
                                 name="rws_about"
                                 onChange={ handleChange }
                             />
@@ -136,7 +132,7 @@ const Fields = () => {
                                 name="rws_designation" 
                                 id="rws_designation"
                                 className="regular-text"
-                                value={ inputs.rws_designation || "" }
+                                value={ inputs.rws_designation || '' }
                                 onChange={ handleChange }
                             >
                                 <option value=""> -- Select a role -- </option>
@@ -156,38 +152,18 @@ const Fields = () => {
                         </div>
 
                         <div className="field">
-                            <label>
-                                <input 
-                                    type="radio" 
-                                    name="rws_campus"
-                                    value="none"
-                                    checked={ inputs.rws_campus === "none" }
-                                    onChange={ handleChange }
-                                />
-                                None
-                            </label>
-                            
-                            <label>
-                                <input 
-                                    type="radio" 
-                                    name="rws_campus"
-                                    value="hq"
-                                    checked={ inputs.rws_campus === "hq" }
-                                    onChange={ handleChange }
-                                />
-                                Head Quarter
-                            </label>
-
-                            <label>
-                                <input 
-                                    type="radio" 
-                                    name="rws_campus"
-                                    value="swizz hall"
-                                    checked={ inputs.rws_campus === "swizz hall" }
-                                    onChange={ handleChange }
-                                />
-                                Switzerland Hall
-                            </label>
+                            { radioOptions.map( option => (
+                                <label key={ option.value }>
+                                    <input 
+                                        type="radio"
+                                        name="rws_campus"
+                                        value={ option.value }
+                                        checked={ inputs.rws_campus === option.value }
+                                        onChange={ handleChange }
+                                    />
+                                    { option.label }
+                                </label>
+                            ) ) }
                         </div>
                     </fieldset>
                 </div>
