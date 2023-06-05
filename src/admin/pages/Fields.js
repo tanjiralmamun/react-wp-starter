@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import apiFetch from '@wordpress/api-fetch';
 
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+
 const Fields = ({ fieldsData }) => {
     const [ inputs, setInputs ] = useState({});
 
@@ -29,10 +32,15 @@ const Fields = ({ fieldsData }) => {
         } )
         .then( resp => {
             setInputs( resp )
+            toast.success( 'Changes have been saved', {
+                position: toast.POSITION.BOTTOM_RIGHT
+            } );
             console.log( resp )
         } )
         .catch( err => {
-            console.log( err );
+            toast.error( err.message, {
+                position: toast.POSITION.BOTTOM_RIGHT
+            } )
         } )
     };
 
@@ -169,6 +177,7 @@ const Fields = ({ fieldsData }) => {
                 </div>
 
                 <input type="submit" className="button button-primary" value="Save Changes" />
+                <ToastContainer />
             </form>
         </div>
     );
